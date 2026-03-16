@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1959 專線 · 教育訓練手冊</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:#1a2e4a; --blue:#2563a8; --blue-lt:#3b82c4; --teal:#0d9488;
+  --red:#c0392b; --amber:#b45309; --amber-bg:#fffbeb; --amber-bd:#fcd34d;
+  --green:#15803d; --green-bg:#f0fdf4;
+  --bg:#f0f4f8; --surface:#fff; --surface2:#f8fafc; --border:#e2e8f0;
+  --text:#1e293b; --muted:#64748b;
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.06);
+  --shadow-lg:0 8px 32px rgba(0,0,0,.13);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+header{background:var(--navy);position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.3);}
+.hdr{max-width:1120px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.logo-badge{background:var(--blue);color:#fff;font-family:'Noto Serif TC',serif;font-weight:700;font-size:19px;width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;}
+.logo-text h1{color:#fff;font-size:15px;font-weight:600;}
+.logo-text p{color:#93afc9;font-size:11px;}
+.search-wrap{flex:1;min-width:200px;position:relative;}
+.search-wrap input{width:100%;padding:9px 40px 9px 38px;border-radius:9px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;font-family:'Noto Sans TC',sans-serif;font-size:13.5px;outline:none;transition:.2s;}
+.search-wrap input::placeholder{color:rgba(255,255,255,.4);}
+.search-wrap input:focus{border-color:var(--blue-lt);background:rgba(255,255,255,.13);}
+.s-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.45);font-size:15px;pointer-events:none;}
+.s-cnt{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:11px;color:rgba(255,255,255,.45);}
+.filter-tabs{display:flex;gap:5px;}
+.tab-btn{padding:6px 13px;border-radius:7px;border:1.5px solid rgba(255,255,255,.2);background:transparent;color:rgba(255,255,255,.65);font-family:'Noto Sans TC',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:.18s;white-space:nowrap;}
+.tab-btn:hover{background:rgba(255,255,255,.1);color:#fff;}
+.tab-btn.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+.admin-btn{padding:7px 13px;border-radius:7px;border:1.5px solid rgba(255,200,0,.35);background:rgba(255,200,0,.1);color:#fcd34d;font-family:'Noto Sans TC',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:.18s;white-space:nowrap;}
+.admin-btn:hover{background:rgba(255,200,0,.2);}
+
+/* Alerts */
+.alerts-bar{background:#7c1d1d;border-bottom:2px solid #ef4444;}
+.alerts-inner{max-width:1120px;margin:0 auto;padding:9px 20px;display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap;}
+.alerts-label{background:#ef4444;color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;white-space:nowrap;}
+.alerts-list{display:flex;gap:6px;flex-wrap:wrap;flex:1;}
+.alert-chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fecaca;font-size:12px;padding:3px 10px;border-radius:6px;cursor:pointer;transition:.15s;display:flex;align-items:center;gap:5px;position:relative;}
+.alert-chip:hover{background:rgba(255,255,255,.18);color:#fff;}
+.alert-chip .dot{width:6px;height:6px;border-radius:50%;background:#f87171;flex-shrink:0;animation:pulse 2s infinite;}
+.alert-chip .del-x{display:none;margin-left:4px;color:#fca5a5;font-size:13px;line-height:1;}
+.alert-chip:hover .del-x{display:inline;}
+.add-alert-btn{background:rgba(255,255,255,.08);border:1px dashed rgba(255,255,255,.3);color:rgba(255,255,255,.5);font-size:12px;padding:3px 10px;border-radius:6px;cursor:pointer;transition:.15s;display:none;align-items:center;gap:4px;}
+.add-alert-btn:hover{background:rgba(255,255,255,.15);color:#fff;}
+.admin-mode .add-alert-btn{display:flex;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* Admin bar */
+.admin-bar{background:#fffbeb;border-top:2px solid var(--amber-bd);padding:10px 20px;display:none;align-items:center;gap:10px;flex-wrap:wrap;}
+.admin-bar.open{display:flex;}
+.admin-bar p{font-size:13px;color:#78350f;font-weight:600;}
+.ap-btn{padding:6px 14px;border-radius:7px;border:1.5px solid var(--amber-bd);background:#fff;color:var(--amber);font-family:'Noto Sans TC',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:.15s;}
+.ap-btn:hover{background:var(--amber-bg);}
+.ap-btn.primary{background:var(--amber);color:#fff;border-color:var(--amber);}
+
+/* Main */
+main{max-width:1120px;margin:0 auto;padding:24px 20px 60px;}
+.stats-row{display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap;}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:11px 16px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow);flex:1;min-width:130px;}
+.stat-icon{font-size:20px;}
+.stat-text p{font-size:11px;color:var(--muted);}
+.stat-text strong{font-size:17px;font-weight:700;color:var(--navy);}
+.sec-hdg{display:flex;align-items:center;gap:10px;margin:26px 0 14px;}
+.ch-badge{background:var(--blue);color:#fff;font-size:11px;font-weight:700;padding:3px 9px;border-radius:5px;letter-spacing:.5px;}
+.ch2 .ch-badge{background:#1a5276;}
+.sec-hdg h2{font-family:'Noto Serif TC',serif;font-size:17px;font-weight:700;color:var(--navy);}
+.cnt-badge{margin-left:auto;font-size:12px;color:var(--muted);background:var(--surface2);border:1px solid var(--border);padding:2px 8px;border-radius:20px;}
+.add-qa-btn{background:var(--blue);color:#fff;border:none;font-family:'Noto Sans TC',sans-serif;font-size:12px;font-weight:600;padding:5px 12px;border-radius:7px;cursor:pointer;display:none;align-items:center;gap:5px;margin-left:8px;}
+.add-qa-btn:hover{background:var(--blue-lt);}
+.admin-mode .add-qa-btn{display:flex;}
+
+/* QA Card */
+.qa-card{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;margin-bottom:9px;overflow:hidden;box-shadow:var(--shadow);transition:box-shadow .2s,transform .15s;animation:fadeIn .25s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.qa-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-1px);}
+.qa-card.urgent{border-color:#fca5a5;}
+.qa-card.hidden{display:none;}
+.qa-hdr{display:flex;align-items:center;gap:11px;padding:13px 16px;cursor:pointer;user-select:none;background:var(--surface2);border-bottom:1px solid transparent;transition:background .15s;}
+.qa-card.urgent .qa-hdr{background:#fff5f5;}
+.qa-card.open .qa-hdr{border-bottom-color:var(--border);}
+.qa-hdr:hover{background:#eef2f7;}
+.qa-card.urgent .qa-hdr:hover{background:#fee2e2;}
+.q-num{width:34px;height:34px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;background:var(--blue);flex-shrink:0;}
+.qa-card.urgent .q-num{background:var(--red);}
+.q-text{flex:1;font-size:13.5px;font-weight:600;color:var(--navy);line-height:1.5;}
+.q-tags{display:flex;gap:4px;flex-wrap:wrap;flex-shrink:0;}
+.q-tag{font-size:11px;padding:2px 6px;border-radius:4px;font-weight:500;}
+.urgent-tag{background:#fee2e2;color:var(--red);}
+.note-tag{background:#fffbeb;color:var(--amber);}
+.q-chev{color:var(--muted);font-size:13px;transition:transform .2s;flex-shrink:0;}
+.qa-card.open .q-chev{transform:rotate(180deg);}
+.edit-card-btn{background:rgba(37,99,168,.12);border:none;color:var(--blue);font-size:11px;font-weight:600;padding:4px 9px;border-radius:5px;cursor:pointer;display:none;white-space:nowrap;font-family:'Noto Sans TC',sans-serif;}
+.edit-card-btn:hover{background:rgba(37,99,168,.22);}
+.admin-mode .edit-card-btn{display:flex;align-items:center;gap:4px;}
+.qa-body{display:none;padding:14px 16px;border-top:1px solid var(--border);}
+.qa-card.open .qa-body{display:block;}
+.ans-block{background:var(--green-bg);border-left:3px solid var(--teal);border-radius:0 7px 7px 0;padding:11px 14px;margin-bottom:9px;}
+.ans-lbl{font-size:11px;font-weight:700;color:var(--teal);letter-spacing:.5px;margin-bottom:6px;}
+.ans-txt{font-size:13px;line-height:1.85;color:#1e3a2e;white-space:pre-line;}
+.note-block{background:var(--amber-bg);border-left:3px solid var(--amber-bd);border-radius:0 7px 7px 0;padding:9px 14px;}
+.note-lbl{font-size:11px;font-weight:700;color:var(--amber);letter-spacing:.5px;margin-bottom:5px;}
+.note-txt{font-size:12.5px;line-height:1.7;color:#78350f;white-space:pre-line;}
+.rel-block{margin-top:9px;padding:7px 11px;background:#f1f5f9;border-radius:7px;font-size:12px;color:var(--muted);}
+.rel-block strong{color:var(--blue);}
+mark{background:#fef08a;color:#713f12;border-radius:3px;padding:0 2px;}
+
+/* Loading */
+.loading-wrap{text-align:center;padding:80px 20px;color:var(--muted);}
+.spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* No results */
+.no-results{text-align:center;padding:56px 20px;color:var(--muted);display:none;}
+.no-results.show{display:block;}
+.no-results .nr-icon{font-size:44px;margin-bottom:10px;}
+
+/* Contacts */
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:9px;margin-top:10px;}
+.contact-card{background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:13px;box-shadow:var(--shadow);}
+.c-unit{font-size:11px;color:var(--muted);margin-bottom:3px;}
+.c-phone{font-size:17px;font-weight:700;color:var(--blue);}
+.c-note{font-size:11px;color:var(--muted);margin-top:3px;}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500;display:none;align-items:center;justify-content:center;padding:16px;}
+.modal-overlay.open{display:flex;}
+.modal{background:#fff;border-radius:16px;width:100%;max-width:600px;max-height:92vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.25);animation:modalIn .2s ease;}
+@keyframes modalIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+.modal-hdr{padding:18px 22px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;z-index:1;}
+.modal-hdr h3{font-size:15px;font-weight:700;color:var(--navy);}
+.modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted);padding:2px 6px;border-radius:6px;}
+.modal-close:hover{background:var(--bg);}
+.modal-body{padding:18px 22px;}
+.form-row{margin-bottom:14px;}
+.form-row label{display:block;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:4px;letter-spacing:.3px;text-transform:uppercase;}
+.form-row input,.form-row textarea,.form-row select{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:7px;font-family:'Noto Sans TC',sans-serif;font-size:13.5px;color:var(--text);outline:none;transition:.2s;background:#fff;}
+.form-row input:focus,.form-row textarea:focus,.form-row select:focus{border-color:var(--blue);}
+.form-row textarea{resize:vertical;min-height:85px;line-height:1.7;}
+.form-check{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13.5px;}
+.form-check input[type=checkbox]{width:16px;height:16px;accent-color:var(--red);}
+.modal-ftr{padding:14px 22px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;background:#f8fafc;border-radius:0 0 16px 16px;}
+.btn-cancel{padding:8px 16px;border-radius:7px;border:1.5px solid var(--border);background:#fff;color:var(--muted);font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:600;cursor:pointer;}
+.btn-save{padding:8px 20px;border-radius:7px;border:none;background:var(--blue);color:#fff;font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:700;cursor:pointer;}
+.btn-save:hover{background:var(--blue-lt);}
+.btn-save:disabled{opacity:.5;cursor:not-allowed;}
+.btn-delete{padding:8px 14px;border-radius:7px;border:none;background:#fee2e2;color:var(--red);font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:600;cursor:pointer;margin-right:auto;}
+
+/* Password modal */
+.pwd-modal{background:#fff;border-radius:16px;width:100%;max-width:380px;padding:28px;box-shadow:0 24px 64px rgba(0,0,0,.25);text-align:center;animation:modalIn .2s ease;}
+.pwd-modal h3{font-size:17px;font-weight:700;color:var(--navy);margin-bottom:8px;}
+.pwd-modal p{font-size:13px;color:var(--muted);margin-bottom:20px;}
+.pwd-modal input{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:'Noto Sans TC',sans-serif;font-size:14px;outline:none;text-align:center;letter-spacing:3px;margin-bottom:14px;}
+.pwd-modal input:focus{border-color:var(--blue);}
+.pwd-modal .err{color:var(--red);font-size:12px;margin-top:-8px;margin-bottom:10px;display:none;}
+.pwd-modal .err.show{display:block;}
+.btn-row{display:flex;gap:8px;}
+.btn-row button{flex:1;padding:9px;border-radius:8px;font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:600;cursor:pointer;}
+
+/* Toast */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:10px 22px;border-radius:10px;font-size:13px;font-weight:500;opacity:0;pointer-events:none;transition:all .3s;z-index:999;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* API config notice */
+.config-notice{background:#fffbeb;border:2px dashed var(--amber-bd);border-radius:12px;padding:20px 24px;margin-bottom:24px;display:none;}
+.config-notice.show{display:block;}
+.config-notice h4{font-size:14px;font-weight:700;color:var(--amber);margin-bottom:8px;}
+.config-notice p{font-size:13px;color:#78350f;margin-bottom:10px;line-height:1.7;}
+.config-notice input{width:100%;padding:8px 12px;border:1.5px solid var(--amber-bd);border-radius:7px;font-family:monospace;font-size:13px;outline:none;background:#fff;}
+.config-notice .save-url-btn{margin-top:8px;padding:7px 16px;border:none;background:var(--amber);color:#fff;border-radius:7px;font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:600;cursor:pointer;}
+
+@media(max-width:640px){
+  .hdr{padding:10px 14px;}
+  main{padding:14px 14px 40px;}
+  .filter-tabs{display:none;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hdr">
+    <div class="logo">
+      <div class="logo-badge">1959</div>
+      <div class="logo-text">
+        <h1>南投縣家畜疾病防治所</h1>
+        <p>客服人員教育訓練手冊</p>
+      </div>
+    </div>
+    <div class="search-wrap">
+      <span class="s-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="輸入關鍵字搜尋，例如：流浪狗、晶片、禽流感…" autocomplete="off">
+      <span class="s-cnt" id="sCnt"></span>
+    </div>
+    <div class="filter-tabs">
+      <button class="tab-btn active" data-filter="all">全部</button>
+      <button class="tab-btn" data-filter="cat1">動物保護</button>
+      <button class="tab-btn" data-filter="cat2">防疫檢疫</button>
+      <button class="tab-btn" data-filter="urgent">緊急案件</button>
+    </div>
+    <button class="admin-btn" id="adminToggle">⚙ 管理模式</button>
+  </div>
+</header>
+
+<div class="admin-bar" id="adminBar">
+  <p>⚙ 管理模式已開啟 — 資料直接儲存到 Google Sheets</p>
+  <button class="ap-btn" onclick="reloadData()">🔄 重新載入資料</button>
+  <button class="ap-btn" id="exitAdmin" onclick="toggleAdmin()">✕ 離開管理模式</button>
+</div>
+
+<div class="alerts-bar">
+  <div class="alerts-inner">
+    <span class="alerts-label">⚠ 同仁注意</span>
+    <div class="alerts-list" id="alertsList"></div>
+    <button class="add-alert-btn" id="addAlertBtn" onclick="openAddAlert()">＋ 新增提醒</button>
+  </div>
+</div>
+
+<main>
+  <!-- API 設定提示（初次使用時顯示） -->
+  <div class="config-notice" id="configNotice">
+    <h4>⚙️ 第一次使用：請設定 Google Apps Script 網址</h4>
+    <p>部署 Apps Script 後，將「網頁應用程式網址」貼到下方，之後所有人開啟這個網頁都會讀取同一份 Google Sheets 資料。</p>
+    <input type="text" id="apiUrlInput" placeholder="https://script.google.com/macros/s/xxxxxxxx/exec">
+    <br>
+    <button class="save-url-btn" onclick="saveApiUrl()">儲存網址並載入資料</button>
+  </div>
+
+  <div class="stats-row" id="statsRow">
+    <div class="stat-card"><span class="stat-icon">⏳</span><div class="stat-text"><p>載入中…</p><strong>—</strong></div></div>
+  </div>
+
+  <div id="loadingWrap" class="loading-wrap">
+    <div class="spinner"></div>
+    <p>正在從 Google Sheets 載入資料…</p>
+  </div>
+
+  <div class="no-results" id="noResults">
+    <div class="nr-icon">🔎</div>
+    <p>找不到符合「<span id="noKw"></span>」的結果</p>
+    <small>請試試其他關鍵字</small>
+  </div>
+
+  <div class="sec-hdg" id="ch1-hdg" style="display:none">
+    <span class="ch-badge">第一章</span>
+    <h2>動物保護問題</h2>
+    <span class="cnt-badge" id="ch1-cnt"></span>
+    <button class="add-qa-btn" onclick="openAddQA('cat1')">＋ 新增問答</button>
+  </div>
+  <div id="ch1-list"></div>
+
+  <div class="sec-hdg ch2" id="ch2-hdg" style="display:none">
+    <span class="ch-badge">第二章</span>
+    <h2>動物防疫檢疫問題</h2>
+    <span class="cnt-badge" id="ch2-cnt"></span>
+    <button class="add-qa-btn" onclick="openAddQA('cat2')">＋ 新增問答</button>
+  </div>
+  <div id="ch2-list"></div>
+
+  <div class="sec-hdg" style="margin-top:38px">
+    <span class="ch-badge" style="background:#4a235b">附錄</span>
+    <h2>重要聯絡電話</h2>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-card" style="border-color:#bfdbfe"><div class="c-unit">家畜疾病防治所（主要）</div><div class="c-phone">049-2222542</div><div class="c-note">平日上班時間</div></div>
+    <div class="contact-card" style="border-color:#fca5a5"><div class="c-unit">南投動物收容所</div><div class="c-phone">049-2225440</div><div class="c-note">週二至六 9:00-16:00</div></div>
+    <div class="contact-card" style="border-color:#86efac"><div class="c-unit">集集特有生物中心</div><div class="c-phone">049-2761331</div><div class="c-note">石虎/野生動物救援</div></div>
+    <div class="contact-card" style="border-color:#86efac"><div class="c-unit">林務保育科（保育類）</div><div class="c-phone">049-2222340</div><div class="c-note">蔡小姐</div></div>
+    <div class="contact-card" style="border-color:#fca5a5"><div class="c-unit">防疫課許課長（緊急疫情）</div><div class="c-phone">0928365233</div><div class="c-note">夜間緊急疫情通報</div></div>
+    <div class="contact-card"><div class="c-unit">國道警察</div><div class="c-phone">110</div><div class="c-note">高速公路流浪動物</div></div>
+  </div>
+</main>
+
+<!-- QA Modal -->
+<div class="modal-overlay" id="qaModal">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h3 id="modalTitle">新增問答</h3>
+      <button class="modal-close" onclick="closeModal('qaModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editId">
+      <div class="form-row">
+        <label>分類</label>
+        <select id="editCat">
+          <option value="cat1">第一章：動物保護問題</option>
+          <option value="cat2">第二章：動物防疫檢疫問題</option>
+        </select>
+      </div>
+      <div class="form-row"><label>問題內容 *</label><textarea id="editQ" rows="3" placeholder="輸入問題…"></textarea></div>
+      <div class="form-row"><label>辦理方式 *</label><textarea id="editA" rows="5" placeholder="輸入辦理方式，換行請按 Enter…"></textarea></div>
+      <div class="form-row"><label>注意事項（選填）</label><textarea id="editNote" rows="2" placeholder="同仁特別注意事項…"></textarea></div>
+      <div class="form-row"><label>關聯問題（選填）</label><input type="text" id="editRel" placeholder="相關問題描述…"></div>
+      <div class="form-row"><label class="form-check"><input type="checkbox" id="editUrgent"><span>🚨 標記為緊急案件</span></label></div>
+    </div>
+    <div class="modal-ftr">
+      <button class="btn-delete" id="deleteBtn" onclick="deleteQA()" style="display:none">🗑 刪除此題</button>
+      <button class="btn-cancel" onclick="closeModal('qaModal')">取消</button>
+      <button class="btn-save" id="saveQABtn" onclick="saveQA()">儲存</button>
+    </div>
+  </div>
+</div>
+
+<!-- Alert Modal -->
+<div class="modal-overlay" id="alertModal">
+  <div class="modal" style="max-width:440px">
+    <div class="modal-hdr"><h3>新增同仁注意事項</h3><button class="modal-close" onclick="closeModal('alertModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-row"><label>提醒文字</label><input type="text" id="newAlertText" placeholder="例如：補助名額有限，請提醒民眾盡早申請"></div>
+      <div class="form-row"><label>點擊後搜尋關鍵字（選填）</label><input type="text" id="newAlertKw" placeholder="例如：補助"></div>
+    </div>
+    <div class="modal-ftr">
+      <button class="btn-cancel" onclick="closeModal('alertModal')">取消</button>
+      <button class="btn-save" id="saveAlertBtn" onclick="saveAlert()">新增</button>
+    </div>
+  </div>
+</div>
+
+<!-- Password Modal -->
+<div class="modal-overlay" id="pwdModal">
+  <div class="pwd-modal">
+    <h3>🔒 管理員登入</h3>
+    <p>請輸入管理密碼才能進入編輯模式</p>
+    <input type="password" id="pwdInput" placeholder="管理密碼" onkeydown="if(event.key==='Enter')checkPwd()">
+    <p class="err" id="pwdErr">密碼錯誤，請再試一次</p>
+    <div class="btn-row">
+      <button style="background:var(--bg);border:1.5px solid var(--border);color:var(--muted)" onclick="closeModal('pwdModal')">取消</button>
+      <button style="background:var(--blue);border:none;color:#fff" onclick="checkPwd()">確認登入</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════
+// CONFIG
+// ══════════════════════════════════════════
+let API_URL = localStorage.getItem('1959_api_url') || '';
+let adminPassword = '';  // 儲存本次登入的密碼（不持久化）
+let isAdmin = false;
+let currentFilter = 'all';
+let editingId = null;
+let appData = { alerts:[], cat1:[], cat2:[] };
+
+// ── API URL 設定 ────────────────────────────
+function checkApiUrl() {
+  if (!API_URL) {
+    document.getElementById('configNotice').classList.add('show');
+    document.getElementById('loadingWrap').style.display = 'none';
+  } else {
+    loadData();
+  }
+}
+
+function saveApiUrl() {
+  const url = document.getElementById('apiUrlInput').value.trim();
+  if (!url.startsWith('https://script.google.com')) {
+    alert('請貼上正確的 Apps Script 網址（以 https://script.google.com 開頭）');
+    return;
+  }
+  API_URL = url;
+  localStorage.setItem('1959_api_url', url);
+  document.getElementById('configNotice').classList.remove('show');
+  loadData();
+}
+
+// ── 資料載入 ────────────────────────────────
+async function loadData() {
+  document.getElementById('loadingWrap').style.display = 'block';
+  try {
+    const res = await fetch(`${API_URL}?action=getAll`);
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+    appData = data;
+    document.getElementById('loadingWrap').style.display = 'none';
+    document.getElementById('ch1-hdg').style.display = 'flex';
+    document.getElementById('ch2-hdg').style.display = 'flex';
+    renderAlerts();
+    renderAll(document.getElementById('searchInput').value.trim(), currentFilter);
+  } catch (e) {
+    document.getElementById('loadingWrap').innerHTML = `
+      <div class="nr-icon">⚠️</div>
+      <p style="color:var(--red);font-weight:600">載入失敗：${e.message}</p>
+      <p style="margin-top:8px;font-size:13px">請確認 Apps Script 已正確部署，或重新整理頁面。</p>
+      <button onclick="reloadData()" style="margin-top:12px;padding:8px 18px;border:none;background:var(--blue);color:#fff;border-radius:7px;font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:600;cursor:pointer;">重試</button>`;
+  }
+}
+
+function reloadData() {
+  document.getElementById('loadingWrap').innerHTML = `<div class="spinner"></div><p>正在從 Google Sheets 載入資料…</p>`;
+  loadData();
+}
+
+// ── API 呼叫工具 ────────────────────────────
+async function apiPost(body) {
+  body.password = adminPassword;
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    body: JSON.stringify(body)
+  });
+  return res.json();
+}
+
+// ══════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════
+function hl(text, kw) {
+  if (!kw || !text) return text || '';
+  const esc = kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  return String(text).replace(new RegExp(esc,'gi'), m=>`<mark>${m}</mark>`);
+}
+
+function renderAlerts() {
+  const list = document.getElementById('alertsList');
+  list.innerHTML = '';
+  (appData.alerts||[]).forEach((a,i) => {
+    const chip = document.createElement('span');
+    chip.className = 'alert-chip';
+    chip.innerHTML = `<span class="dot"></span>${a.text}<span class="del-x" title="刪除">✕</span>`;
+    chip.onclick = (e) => {
+      if (e.target.classList.contains('del-x') && isAdmin) { deleteAlert(i); return; }
+      filterByAlert(a.kw || a.text);
+    };
+    list.appendChild(chip);
+  });
+}
+
+function buildCard(item, cat, kw) {
+  const card = document.createElement('div');
+  card.className = `qa-card${item.urgent?' urgent':''}`;
+  const tags = [];
+  if (item.urgent) tags.push('<span class="q-tag urgent-tag">🚨 緊急</span>');
+  if (item.note) tags.push('<span class="q-tag note-tag">⚠ 注意</span>');
+  card.innerHTML = `
+    <div class="qa-hdr">
+      <div class="q-num">Q${item.num}</div>
+      <div class="q-text">${hl(item.q,kw)}</div>
+      <div class="q-tags">${tags.join('')}</div>
+      <button class="edit-card-btn" onclick="openEditQA('${item.id}','${cat}');event.stopPropagation()">✏ 編輯</button>
+      <div class="q-chev">▼</div>
+    </div>
+    <div class="qa-body">
+      <div class="ans-block"><div class="ans-lbl">✔ 辦理方式</div><div class="ans-txt">${hl(item.a,kw)}</div></div>
+      ${item.note?`<div class="note-block"><div class="note-lbl">⚠ 注意事項</div><div class="note-txt">${hl(item.note,kw)}</div></div>`:''}
+      ${item.rel?`<div class="rel-block">🔗 <strong>相關問題：</strong>${hl(item.rel,kw)}</div>`:''}
+    </div>`;
+  card.querySelector('.qa-hdr').addEventListener('click', function(e){
+    if(e.target.closest('.edit-card-btn')) return;
+    card.classList.toggle('open');
+  });
+  return card;
+}
+
+function renderAll(kw='', filter='all') {
+  const c1 = document.getElementById('ch1-list');
+  const c2 = document.getElementById('ch2-list');
+  c1.innerHTML=''; c2.innerHTML='';
+  const kwL = kw.toLowerCase();
+  let n1=0, n2=0;
+
+  (appData.cat1||[]).forEach(item => {
+    if (filter==='cat2' || (filter==='urgent'&&!item.urgent)) return;
+    const match = !kw||[item.q,item.a,item.note||'',item.rel||''].join(' ').toLowerCase().includes(kwL);
+    if (!match) return;
+    const card = buildCard(item,'cat1',kw);
+    if (kw) card.classList.add('open');
+    c1.appendChild(card); n1++;
+  });
+  (appData.cat2||[]).forEach(item => {
+    if (filter==='cat1' || (filter==='urgent'&&!item.urgent)) return;
+    const match = !kw||[item.q,item.a,item.note||'',item.rel||''].join(' ').toLowerCase().includes(kwL);
+    if (!match) return;
+    const card = buildCard(item,'cat2',kw);
+    if (kw) card.classList.add('open');
+    c2.appendChild(card); n2++;
+  });
+
+  document.getElementById('ch1-cnt').textContent=`${n1} 題`;
+  document.getElementById('ch2-cnt').textContent=`${n2} 題`;
+  document.getElementById('sCnt').textContent=kw?`${n1+n2} 筆`:'';
+  document.getElementById('noResults').classList.toggle('show', n1+n2===0&&!!kw);
+  document.getElementById('noKw').textContent=kw;
+
+  const urgCount=(appData.cat1||[]).concat(appData.cat2||[]).filter(x=>x.urgent).length;
+  document.getElementById('statsRow').innerHTML=`
+    <div class="stat-card"><span class="stat-icon">📋</span><div class="stat-text"><p>總問答題數</p><strong>${(appData.cat1||[]).length+(appData.cat2||[]).length}</strong></div></div>
+    <div class="stat-card"><span class="stat-icon">🐾</span><div class="stat-text"><p>動物保護</p><strong>${(appData.cat1||[]).length}</strong></div></div>
+    <div class="stat-card"><span class="stat-icon">🧬</span><div class="stat-text"><p>防疫檢疫</p><strong>${(appData.cat2||[]).length}</strong></div></div>
+    <div class="stat-card" style="border-color:#fca5a5"><span class="stat-icon">🚨</span><div class="stat-text"><p>緊急案件</p><strong style="color:var(--red)">${urgCount}</strong></div></div>`;
+}
+
+// ══════════════════════════════════════════
+// ADMIN
+// ══════════════════════════════════════════
+function toggleAdmin() {
+  if (!isAdmin) {
+    document.getElementById('pwdModal').classList.add('open');
+    setTimeout(()=>document.getElementById('pwdInput').focus(),100);
+  } else {
+    isAdmin = false;
+    adminPassword = '';
+    document.body.classList.remove('admin-mode');
+    document.getElementById('adminBar').classList.remove('open');
+    document.getElementById('adminToggle').textContent='⚙ 管理模式';
+    renderAll(document.getElementById('searchInput').value.trim(), currentFilter);
+  }
+}
+
+function checkPwd() {
+  const pwd = document.getElementById('pwdInput').value;
+  if (!pwd) return;
+  // 先嘗試用這個密碼呼叫 API 驗證
+  adminPassword = pwd;
+  document.getElementById('pwdInput').value='';
+  closeModal('pwdModal');
+  // 用一個空的 saveAlert 測試密碼（不實際送出，只驗證）
+  fetch(API_URL, {
+    method:'POST',
+    body: JSON.stringify({ action:'ping', password: pwd })
+  }).then(r=>r.json()).then(d=>{
+    if (d.error === '密碼錯誤') {
+      adminPassword = '';
+      document.getElementById('pwdErr').classList.add('show');
+      document.getElementById('pwdModal').classList.add('open');
+      setTimeout(()=>document.getElementById('pwdInput').focus(),100);
+    } else {
+      enterAdminMode();
+    }
+  }).catch(()=>{
+    // 如果 API 沒有 ping action 也當作通過（伺服器可達）
+    enterAdminMode();
+  });
+}
+
+function enterAdminMode() {
+  isAdmin = true;
+  document.body.classList.add('admin-mode');
+  document.getElementById('adminBar').classList.add('open');
+  document.getElementById('adminToggle').textContent='✕ 離開管理';
+  document.getElementById('pwdErr').classList.remove('show');
+  renderAll(document.getElementById('searchInput').value.trim(), currentFilter);
+  showToast('✅ 已進入管理模式');
+}
+
+// ── QA CRUD ─────────────────────────────────
+function openAddQA(cat) {
+  editingId = null;
+  document.getElementById('modalTitle').textContent='新增問答';
+  document.getElementById('editQ').value='';
+  document.getElementById('editA').value='';
+  document.getElementById('editNote').value='';
+  document.getElementById('editRel').value='';
+  document.getElementById('editUrgent').checked=false;
+  document.getElementById('editCat').value=cat;
+  document.getElementById('deleteBtn').style.display='none';
+  document.getElementById('qaModal').classList.add('open');
+  setTimeout(()=>document.getElementById('editQ').focus(),100);
+}
+
+function openEditQA(id, cat) {
+  const arr = cat==='cat1'?appData.cat1:appData.cat2;
+  const item = arr.find(x=>String(x.id)===String(id));
+  if (!item) return;
+  editingId = id;
+  document.getElementById('modalTitle').textContent='編輯問答';
+  document.getElementById('editQ').value=item.q;
+  document.getElementById('editA').value=item.a;
+  document.getElementById('editNote').value=item.note||'';
+  document.getElementById('editRel').value=item.rel||'';
+  document.getElementById('editUrgent').checked=!!item.urgent;
+  document.getElementById('editCat').value=cat;
+  document.getElementById('deleteBtn').style.display='block';
+  document.getElementById('qaModal').classList.add('open');
+}
+
+async function saveQA() {
+  const q = document.getElementById('editQ').value.trim();
+  const a = document.getElementById('editA').value.trim();
+  if (!q||!a) { alert('問題與辦理方式為必填欄位'); return; }
+  const cat = document.getElementById('editCat').value;
+  const note = document.getElementById('editNote').value.trim();
+  const rel = document.getElementById('editRel').value.trim();
+  const urgent = document.getElementById('editUrgent').checked;
+
+  const btn = document.getElementById('saveQABtn');
+  btn.disabled=true; btn.textContent='儲存中…';
+
+  let item;
+  if (editingId) {
+    const arr = (appData[cat]||[]).find(x=>String(x.id)===String(editingId)) ||
+                (appData[cat==='cat1'?'cat2':'cat1']||[]).find(x=>String(x.id)===String(editingId));
+    item = { ...arr, q, a, note, rel, urgent };
+  } else {
+    const arr = appData[cat]||[];
+    const maxNum = arr.reduce((m,x)=>Math.max(m,x.num||0),0);
+    item = { id:`${cat}-${Date.now()}`, num:maxNum+1, q, a, note, rel, urgent };
+  }
+
+  try {
+    const res = await apiPost({ action:'saveQA', item, cat });
+    if (res.error) throw new Error(res.error);
+    closeModal('qaModal');
+    await reloadDataSilent();
+    showToast(editingId ? '✅ 問答已更新' : '✅ 問答已新增');
+  } catch(e) {
+    alert('儲存失敗：' + e.message);
+  } finally {
+    btn.disabled=false; btn.textContent='儲存';
+  }
+}
+
+async function deleteQA() {
+  if (!editingId||!confirm('確定要刪除這個問答嗎？')) return;
+  const cat = document.getElementById('editCat').value;
+  try {
+    const res = await apiPost({ action:'deleteQA', id:editingId, cat });
+    if (res.error) throw new Error(res.error);
+    closeModal('qaModal');
+    await reloadDataSilent();
+    showToast('🗑 問答已刪除');
+  } catch(e) { alert('刪除失敗：'+e.message); }
+}
+
+// ── Alerts CRUD ─────────────────────────────
+function openAddAlert() {
+  document.getElementById('newAlertText').value='';
+  document.getElementById('newAlertKw').value='';
+  document.getElementById('alertModal').classList.add('open');
+  setTimeout(()=>document.getElementById('newAlertText').focus(),100);
+}
+
+async function saveAlert() {
+  const text = document.getElementById('newAlertText').value.trim();
+  if (!text) { alert('請輸入提醒文字'); return; }
+  const kw = document.getElementById('newAlertKw').value.trim();
+  const btn = document.getElementById('saveAlertBtn');
+  btn.disabled=true; btn.textContent='新增中…';
+  try {
+    const res = await apiPost({ action:'saveAlert', alert:{text,kw} });
+    if (res.error) throw new Error(res.error);
+    closeModal('alertModal');
+    await reloadDataSilent();
+    showToast('✅ 提醒已新增');
+  } catch(e) { alert('新增失敗：'+e.message); }
+  finally { btn.disabled=false; btn.textContent='新增'; }
+}
+
+async function deleteAlert(i) {
+  if (!confirm('確定要刪除這條提醒嗎？')) return;
+  try {
+    const res = await apiPost({ action:'deleteAlert', index:i });
+    if (res.error) throw new Error(res.error);
+    await reloadDataSilent();
+    showToast('提醒已刪除');
+  } catch(e) { alert('刪除失敗：'+e.message); }
+}
+
+async function reloadDataSilent() {
+  const res = await fetch(`${API_URL}?action=getAll`);
+  const data = await res.json();
+  if (!data.error) {
+    appData = data;
+    renderAlerts();
+    renderAll(document.getElementById('searchInput').value.trim(), currentFilter);
+  }
+}
+
+// ── Misc ────────────────────────────────────
+function filterByAlert(kw) {
+  if (!kw) return;
+  const inp = document.getElementById('searchInput');
+  inp.value=kw;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.filter==='all'));
+  currentFilter='all';
+  renderAll(kw,'all');
+}
+
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function showToast(msg) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2300);
+}
+
+// ── Events ──────────────────────────────────
+document.getElementById('searchInput').addEventListener('input', e=>{
+  renderAll(e.target.value.trim(), currentFilter);
+});
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter=btn.dataset.filter;
+    renderAll(document.getElementById('searchInput').value.trim(), currentFilter);
+  });
+});
+document.getElementById('adminToggle').addEventListener('click', toggleAdmin);
+document.getElementById('pwdModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal('pwdModal');});
+document.getElementById('qaModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal('qaModal');});
+document.getElementById('alertModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal('alertModal');});
+
+// Init
+checkApiUrl();
+</script>
+</body>
+</html>
